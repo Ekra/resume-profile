@@ -28,8 +28,8 @@ body
 
 <div class="form-group">
 	{{Form::label('Lastname','Lastname:')}}
-	{{Form::text('Lastname', null ,[ 'class'=>'form-control'])}}
-	{{$errors->first('Lastname')}}
+	{{Form::text('lastname', null ,[ 'class'=>'form-control'])}}
+	{{$errors->first('lastname')}}
 </div>
 
 
@@ -67,5 +67,6 @@ body
 </div>
 
 	{{Form::close()}}
+	{{HTML::ul($errors->all())}}
 @stop
 

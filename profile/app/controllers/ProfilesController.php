@@ -35,37 +35,42 @@ class ProfilesController extends \BaseController {
 	public function store()
 	{
 		$payload = Input::all();
+
+
 		$validation = Validator::make($payload, Profile::$rules);
 		if($validation->fails())
 		{
+			
 			return Redirect::to('profiles/create')
-		->withErrors($validation)->withInput();
+				->withErrors($validation);
+				
 		} 
 		else{
-		if(Input::hasFile('photo'))
+			
+			if(Input::hasFile('photo'))
+				{
+				$file = Input::file('photo');
+				$destination = public_path().'/uploads/';
+				$filename = str_random(12).$file->getClientOriginalName();
+				$success = $file->move($destination, $filename);
+				$photo = $filename;
+				}
+			if(Input::hasFile('cv'))
 			{
-			$file = Input::file('photo');
-			$destination = public_path().'/uploads/';
-			$filename = str_random(12).$file->getClientOriginalName();
-			$success = $file->move($destination, $filename);
-			$input['photo'] = $filename;
+				$file = Input::file('cv');
+				$destination = public_path().'/uploads/';
+				$filename = str_random(12).$file->getClientOriginalName();
+				$success = $file->move($destination, $filename);
+				$cv = $filename;
 			}
-		if(Input::hasFile('cv'))
-		{
-			$file = Input::file('cv');
-			$destination = public_path().'/uploads/';
-			$filename = str_random(12).$file->getClientOriginalName();
-			$success = $file->move($destination, $filename);
-			$input['cv'] = $filename;
-		}
-
+		
 		$profile = new Profile;
 		$profile->firstname = Input::get('firstname');
 		$profile->lastname    = Input::get('lastname');
 		$profile->nickname = Input::get('nickname');
 		$profile->phonenumber    = Input::get('phonenumber');
-		$profile->photo = Input::get('photo');
-		$profile->cv    = Input::get('cv');
+		$profile->photo = $photo;
+		$profile->cv    =$cv;
 		$profile->save();
 		//Auth::login($user);
 

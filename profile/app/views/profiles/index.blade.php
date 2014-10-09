@@ -19,8 +19,9 @@ body
 	<li>{{ $profile->lastname }}</li>
 	<li>{{ $profile->nickname }}</li>
 	<li>{{ $profile->phonenumber }}</li>
-	<li>{{ $profile->photo }}</li>
-	<li>{{ $profile->cv }}</li>
+	<li><img src="/uploads/{{ $profile->photo }}"/></li>
+	<li><a href="/uploads/{{ $profile->cv }}"> Pdf</a></li>
+	
 
 @endforeach
 
